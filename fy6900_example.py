@@ -20,7 +20,7 @@ sername = "/dev/ttyUSB0" #you'll have to figure this one out on your own
 ser = serial.Serial(sername, 115200, timeout = 1)
 print ser
 
-#test communications, ask the fenerator for its model. 
+#test communications, ask the generator for its model. 
 print exchange("UMO\x0a")
 #mine prints waiting 14 FY6900-60M
 
@@ -35,9 +35,14 @@ length = 2**13
 
 time_base = np.linspace(0, np.pi*2, num=length, endpoint=False) #time base to generate wave.
 #In my case, [0, 2pi)
-sig = (np.sin(time_base)/2+.5)**.5*2-1 #come up with a waveform bounded [-1, 1] inclusive.
+
+#come up with your waveform bounded [-1, 1] inclusive.
 #It does not have to span the entire [-1, 1] domain.
-mapped_sig = 0.5*(sig+1.)*(2**14-1)# map linearly: -1 -> 0, 1 -> 2**14-1, and 0 -> 2**13
+#I came up with an offset, square-tooted, offset-again sine wave
+sig = (np.sin(time_base)/2+.5)**.5*2-1 
+
+# map linearly: -1 -> 0, 1 -> 2**14-1, and 0 -> 2**13
+mapped_sig = 0.5*(sig+1.)*(2**14-1)
 samples = np.ceil(mapped_sig).astype(int)
 
 #transform samples to a list of contiguous bytes, two bytes per sample.
@@ -59,7 +64,7 @@ while True:
         print res
         break
 
-#The unit will then accept bytes, and it will not respond or take ant commands until 2**13 samples (2**14 bytes) have been sent
+#The unit will then accept bytes, and it will not respond or take any commands until 2**13 samples (2**14 bytes) have been sent
 chunk_length = 256
 for i in range(100000):
     this_chunk = bytes[i*chunk_length:(i+1)*chunk_length] #chop up the array. The higher, the faster upload happens
