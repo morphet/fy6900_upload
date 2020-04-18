@@ -69,7 +69,7 @@ chunk_length = 256
 for i in range(100000):
     this_chunk = bytes[i*chunk_length:(i+1)*chunk_length] #chop up the array. The higher, the faster upload happens
     #I don't know what are the limits to this
-    ser.write(this_chunk) #send a "chunk-length"-list of [0, 2**14-1) integers
+    ser.write(this_chunk) #send a "chunk-length"-list of [0, 256) integers
     time.sleep(0.005) #sleep to avoid buffer overflow. I don't know whether this is necessary
     if ser.inWaiting()>0: #Has the unit responded?
         print ser.readall()
