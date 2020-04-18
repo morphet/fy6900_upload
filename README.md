@@ -3,7 +3,7 @@ Minimal example to upload an arbitrary waveform to the FeelTech FY6900 DDS signa
 
 
 This is largely included in two existing projects:
-https://github.com/NikkiGirl/FY6xxx/blob/master/FY6xxx.py
+https://github.com/NikkiGirl/FY6xxx/blob/master/FY6xxx.py and
 https://github.com/ul5255/fy6800
 
 But I wanted to have a minimal example to get quick and dirty code running.
